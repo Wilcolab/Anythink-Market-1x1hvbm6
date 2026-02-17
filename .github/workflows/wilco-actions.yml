@@ -9,6 +9,17 @@ jobs:
     timeout-minutes: 10
     name: Pr checks
 
+    services:
+      mongo:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_DATABASE: test
+
+    env:
+      MONGODB_URI: mongodb://localhost:27017/test
+
     steps:
       - name: Check out project
         uses: actions/checkout@v2
@@ -17,16 +28,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "16"
-
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.6.0
-        with:
-          mongodb-version: "4.4"
-          mongodb-port: 27017
-
-      - name: Set MongoDB URI
-        run: |
-          echo "MONGODB_URI=mongodb://localhost:27017/test" >> $GITHUB_ENV
 
       - uses: oNaiPs/secrets-to-env-action@v1
         with:
