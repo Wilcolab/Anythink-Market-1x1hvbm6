@@ -24,6 +24,10 @@ jobs:
           mongodb-version: "4.4"
           mongodb-port: 27017
 
+      - name: Set MongoDB URI
+        run: |
+          echo "MONGODB_URI=mongodb://localhost:27017/test" >> $GITHUB_ENV
+
       - uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
